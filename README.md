@@ -1,14 +1,18 @@
 # BF4DB-Modded Plugin
 
 ## Changelog
-ward
 
+**2.0.15b (07-JANUARY-2021)**
+  - Added an option to message all admins when a "under review" player join the server
 
 **2.0.15b (06-JANUARY-2021)**
-  - Unofficial update to kick players under review.
+  - Unofficial update: added a option to kick under review players.
   - Made with the help of [@aleDsz](https://github.com/aleDsz) and [@Eduardo.](https://github.com/the-eduardo)
         
         
+<details><summary> Original Changelog </summary>
+<p>
+
 	2.0.15 (19-JULY-2020)
 	- Update to kick method.
 	
@@ -67,7 +71,8 @@ ward
 
 	1.0.0 (25-MAY-2017)
 	- initial version
-
+</p>
+</details>
 
 
 
