@@ -4,7 +4,69 @@
 ward
 
 
+**2.0.15b (06-JANUARY-2021)**
+	- Unofficial update to kick players under review.
+  - Made with the help of @aleDsz and @Eduardo.
+        
+        
+	2.0.15 (19-JULY-2020)
+	- Update to kick method.
+	
+	
+	2.0.14 (13-JUNE-2020)
+	- Added VPN checking, credits to Russao.
+	
 
+	2.0.13 (27-DECEMBER-2019)
+	- Fixed issue with running on ProCon version 1.5.3.1.
+	
+
+	2.0.12 (02-OCTOBER-2018)
+	- Threading rewrite
+	
+
+	2.0.11 (17-SEPTEMBER-2018)
+	- Small performance fix
+	
+
+	2.0.9 (18-OCTOBER-2017)
+	- Changed wording
+	
+
+	2.0.8 (22-AUGUST-2017)
+	- Fix for !check command
+	
+
+	2.0.7 (20-AUGUST-2017)
+	- Fixed an issue with weapon reporting
+	
+
+	2.0.5 (19-AUGUST-2017)
+	- Added options to enable clean and whitelisted player announcements
+	
+
+	2.0.4 (15-AUGUST-2017)
+	- Added plugin versioning and improved load times around the board
+	
+
+	2.0.3 (27-JULY-2017)
+	- ReMoVeD kIcKs On OfFiCiAl SeRvErS bEcAuSe DiCe/Ea
+	
+
+	2.0.2 (21-JULY-2017)
+	- Fixed player kicks on official servers
+	- Bug fixes
+	
+
+	2.0.1 (17-JULY-2017)
+	- Optimized plugin performance
+	- Added proper AdKats support
+	- Reduced debug spam
+	
+	
+
+	1.0.0 (25-MAY-2017)
+	- initial version
 
 
 
