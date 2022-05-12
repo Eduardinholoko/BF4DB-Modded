@@ -2,7 +2,7 @@
 
 ## Changelog
 
-**2.0.15b (07-JANUARY-2021)**
+**2.0.15c (07-JANUARY-2021)**
   - Added an option to message all admins when a "under review" player join the server
 
 **2.0.15b (06-JANUARY-2021)**
