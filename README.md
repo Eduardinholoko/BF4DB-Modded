@@ -5,8 +5,8 @@ ward
 
 
 **2.0.15b (06-JANUARY-2021)**
-	- Unofficial update to kick players under review.
-  - Made with the help of @aleDsz and @Eduardo.
+  - Unofficial update to kick players under review.
+  - Made with the help of [@aleDsz](https://github.com/aleDsz) and [@Eduardo.](https://github.com/the-eduardo)
         
         
 	2.0.15 (19-JULY-2020)
