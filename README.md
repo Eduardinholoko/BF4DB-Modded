@@ -98,6 +98,8 @@ You will then need to open Procon to enable and configure the plugin. Before ena
 **SETTINGS**
 - API Key - You must claim the server on BF4DB.com to receive an API key for this server.
 - Enable Auto Bans - When set to Yes, any players banned on BF4DB will be removed from your server. Defaults to Yes.
+- **Enable Under Review Kicks** - Will kick players that are under review on BF4DB.com
+- **Enable Under Review Announcements** - Will message all conected admins when a under review player join the server/
 - Enable Announcements - When set to Yes, player status during verification will be announced in chat. Defaults to Yes.
 - Player Whitelist - Place any player names(one per line) to be excluded from BF4DB checks and server removal.
 - Debug Level - Mainly for BF4DB developers. If you encounter an issue please set to one of the following levels before submitting a bug report:<br>
