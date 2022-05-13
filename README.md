@@ -96,20 +96,15 @@ You must already have a Procon layer setup and running either hosted remotely or
 You will then need to open Procon to enable and configure the plugin. Before enabling please input the given API key and change any settings you may want. When the correct API key for that server is included you may then enable the plugin.
 
 **SETTINGS**
-API Key -
-You must claim the server on BF4DB.com to receive an API key for this server.
-Enable Auto Bans -
-When set to Yes, any players banned on BF4DB will be removed from your server. Defaults to Yes.
-Enable Announcements -
-When set to Yes, player status during verification will be announced in chat. Defaults to Yes.
-Player Whitelist -
-Place any player names(one per line) to be excluded from BF4DB checks and server removal.
-Debug Level -
-Mainly for BF4DB developers. If you encounter an issue please set to one of the following levels before submitting a bug report:
-0: Disabled. Not debugging in the console will occur.
-1: Only player information will be logged.
-2: Player and server information will be logged.
-3: Player, server, and PunkBuster information will be logged. 
+- API Key - You must claim the server on BF4DB.com to receive an API key for this server.
+- Enable Auto Bans - When set to Yes, any players banned on BF4DB will be removed from your server. Defaults to Yes.
+- Enable Announcements - When set to Yes, player status during verification will be announced in chat. Defaults to Yes.
+- Player Whitelist - Place any player names(one per line) to be excluded from BF4DB checks and server removal.
+- Debug Level - Mainly for BF4DB developers. If you encounter an issue please set to one of the following levels before submitting a bug report:<br>
+	- 0: Disabled. Not debugging in the console will occur.<br>
+	- 1: Only player information will be logged.<br>
+	- 2: Player and server information will be logged.<br>
+	- 3: Player, server, and PunkBuster information will be logged. <br>
 
 **DEVELOPMENT**
 For any support or bug reports please visit our forums or use  support-tickets. Please included as much information or debugging as you can. 
