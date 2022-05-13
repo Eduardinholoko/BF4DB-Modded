@@ -3,7 +3,7 @@
 ## Changelog
 
 **2.0.15c (07-JANUARY-2021)**
-  - Added an option to message all admins when a "under review" player join the server
+  - Added an option to message all connected admins when a "under review" player join the server
 
 **2.0.15b (06-JANUARY-2021)**
   - Unofficial update: added a option to kick under review players.
