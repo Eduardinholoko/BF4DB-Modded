@@ -335,14 +335,14 @@ namespace PRoConEvents
 
             List<CPluginVariable> lstReturn = new List<CPluginVariable>();
 
-            lstReturn.Add(new CPluginVariable("API Key", bf4db_APIKey.GetType(), this.bf4db_APIKey));
+            lstReturn.Add(new CPluginVariable("API Key", bf4db_APIKey.GetType(), this.bf4db_APIKey));			
 			lstReturn.Add(new CPluginVariable("Enable VPN Kick", typeof(enumBoolYesNo), this.bf4db_EnableVPNKick));
             lstReturn.Add(new CPluginVariable("Enable Auto Bans", typeof(enumBoolYesNo), this.bf4db_EnableAutoBan));
             lstReturn.Add(new CPluginVariable("Enable Cheat Announcements", typeof(enumBoolYesNo), this.bf4db_EnableAnnouncements));
             lstReturn.Add(new CPluginVariable("Enable Clean Announcements", typeof(enumBoolYesNo), this.bf4db_EnableCleanAnnouncements));
             lstReturn.Add(new CPluginVariable("Enable Whitelist Announcements", typeof(enumBoolYesNo), this.bf4db_EnableVerifiedAnnouncements));
             lstReturn.Add(new CPluginVariable("Enable Under Review Kicks", typeof(enumBoolYesNo), this.bf4db_EnableUnderReviewKicks));
-            lstReturn.Add(new CPluginVariable("Enable Under Review Announcements (ADMIN ONLY)", typeof(enumBoolYesNo), this.bf4db_EnableUnderReviewAnnouncements));
+            lstReturn.Add(new CPluginVariable("Enable Under Review Announcements", typeof(enumBoolYesNo), this.bf4db_EnableUnderReviewAnnouncements));
             lstReturn.Add(new CPluginVariable("Whitelist", typeof(string[]), this.bf4db_whitelist.ToArray()));
             lstReturn.Add(new CPluginVariable("Debug Level", bf4db_DebugLevel.GetType(), this.bf4db_DebugLevel));
             lstReturn.Add(new CPluginVariable("Check Command(/!#@)", bf4db_CheckCommand.GetType(), this.bf4db_CheckCommand));
@@ -389,7 +389,7 @@ namespace PRoConEvents
             {
                 this.bf4db_EnableUnderReviewKicks = (enumBoolYesNo)Enum.Parse(typeof(enumBoolYesNo), strValue);
             }
-            if (strVariable.CompareTo("Enable Under Review Announcements (ADMIN ONLY)") == 0 && Enum.IsDefined(typeof(enumBoolYesNo), strValue) == true)
+            if (strVariable.CompareTo("Enable Under Review Announcements") == 0 && Enum.IsDefined(typeof(enumBoolYesNo), strValue) == true)
             {
                 this.bf4db_EnableUnderReviewAnnouncements = (enumBoolYesNo)Enum.Parse(typeof(enumBoolYesNo), strValue);
             }
@@ -471,8 +471,21 @@ namespace PRoConEvents
             {
                 PluginLogin(version);
             }
+            if (bf4db_EnableUnderReviewAnnouncements == enumBoolYesNo.Yes)
+            {
+                if (this.AdKatsIntegration) {
+                    ConsoleWrite("AdKats found and running! Notifying admins of all under review players.");
+                }
+                else {
+                    ConsoleWrite("AdKats not found! Notifying everyone of all under review players.");
+                }
+            }
+            if (bf4db_EnableUnderReviewKicks == enumBoolYesNo.Yes)
+            {
+                ConsoleWarn("Kicking players under review is not recommended, as it may punish players who have not cheated but have been misreported...");
+            }
         }
-
+        
         public void PluginLogin(string version)
         {
             this.ExecuteCommand("procon.protected.send", "serverInfo");
@@ -487,8 +500,8 @@ namespace PRoConEvents
             }
             this.bf4db_lastPlayerUpdate = DateTime.UtcNow;
             this.ExecuteCommand("procon.protected.send", "serverInfo");
-        }
 
+        }
 
         public override void OnTeamChat(string speaker, string message, int teamId)
         {
@@ -696,7 +709,7 @@ namespace PRoConEvents
 
         public void threadPlayer(Object state)
         {
-            CPlayerInfo player = (CPlayerInfo)state;
+            CPlayerInfo player = (CPlayerInfo)state;			
 
             lock (player)
             {
@@ -712,7 +725,7 @@ namespace PRoConEvents
                     DebugWrite("Verifying player " + player.SoldierName, 1);
                     bf4db_CheckedPlayers.Add(player.SoldierName);
                     // check the player
-                    int checkResult = checkPlayer(player.SoldierName, player.GUID, bf4db_APIKey);
+                    int checkResult = checkPlayer(player.SoldierName, player.GUID, bf4db_APIKey); 
                 }
                 //Not in already bf4db_CheckedPlayers as clean or bf4db_SpawnLoopPlayers as banned and does NOT have pb info
                 if (!bf4db_CheckedPlayers.Contains(player.SoldierName) && !bf4db_PBPlayers.Contains(player.SoldierName))
@@ -818,8 +831,8 @@ namespace PRoConEvents
             String message = chat.currentMessage;
 
             if (speaker != "server" && speaker != "Server" && speaker != "")
-            {
-                String command = @"[/!@#]" + @bf4db_CheckCommand + @"\s+([^\s]+)";
+            { //String command = Regex.Replace(message, @"[^\w\s]", "");
+                String command = @"[/!@#]" + @bf4db_CheckCommand + @"\s+(.*)";
                 Match cmd = Regex.Match(message, command, RegexOptions.IgnoreCase);
                 if (cmd.Success)
                 {
@@ -1026,7 +1039,7 @@ namespace PRoConEvents
 
             try
             {
-
+				
                 String result = (string)bf4db_API.GetType().GetMethod("checkPlayer").Invoke(bf4db_API, new object[] { (object)playername, (object)guid, (object)apiKey });
                 Hashtable json = (Hashtable)JSON.JsonDecode(result);
 
@@ -1122,11 +1135,15 @@ namespace PRoConEvents
                             {"record_message", playername + " is under review bf4db.com/player/ban/" + checkID}
                         }));
                     }
+                    else
+                    {
+                        ExecuteCommand("procon.protected.send", "admin.say", "[BF4DB] " + playername + " is under review bf4db.com/player/ban/" + checkID, "all");
+                    }
                 }
 
                 //Kick Under Review players
                 if (bf4db_EnableUnderReviewKicks == enumBoolYesNo.Yes && (checkMessage.Contains("is under review")))
-                {
+                {                    
                         if (!bf4db_whitelist.Contains(playername))
                         {
                             if (bf4db_ServerType != 1)
@@ -1139,14 +1156,14 @@ namespace PRoConEvents
                                     if (AdKatsIntegration)
                                     {
                                         ExecuteCommand("procon.protected.plugins.call", "AdKats", "IssueCommand", "BF4DB", JSON.JsonEncode(new Hashtable {
-                                            {"caller_identity", "BF4DB"},
-                                            {"response_requested", false},
-                                            {"command_type", "player_kick"},
-                                            {"source_name", "BF4DB"},
-                                            {"target_name", playername},
-                                            {"target_guid", guid},
-                                            {"record_message", "[BF4DB] " + playername + " is under review bf4db.com/player/ban/" + checkID}
-                                        }));
+                                {"caller_identity", "BF4DB"},
+                                {"response_requested", false},
+                                {"command_type", "player_kick"},
+                                {"source_name", "BF4DB"},
+                                {"target_name", playername},
+                                {"target_guid", guid},
+                                {"record_message", "[BF4DB] " + playername + " is under review bf4db.com/player/ban/" + checkID}
+                            }));
 
                                         //Just to make sure
                                         System.Threading.Thread.Sleep(1000);
@@ -1164,7 +1181,7 @@ namespace PRoConEvents
                         {
                             DebugWrite(playername + " is whitelisted and will not be banned!", 1);
                         }
-
+                 
                 }
 
                     if (bf4db_EnableAnnouncements == enumBoolYesNo.Yes && (bf4db_manualChecks.Contains(playername) || bf4db_EnableCleanAnnouncements == enumBoolYesNo.Yes))
@@ -1232,7 +1249,7 @@ namespace PRoConEvents
                 String result = (string)bf4db_API.GetType().GetMethod("updatePB").Invoke(bf4db_API, new object[] { (object)cpbiPlayer.SoldierName, (object)cpbiPlayer.GUID, (object)cpbiPlayer.Ip, (object)cpbiPlayer.PlayerCountryCode, (object)apiKey });
 
                 Hashtable json = (Hashtable)JSON.JsonDecode(result);
-
+				
                 // check we got a valid response
                 if (!(json.ContainsKey("response")))
                 {
@@ -1248,7 +1265,7 @@ namespace PRoConEvents
 				if (bf4db_EnableVPNKick == enumBoolYesNo.Yes && (!bf4db_whitelist.Contains(cpbiPlayer.SoldierName)) && block == "yes")  {
 					KickPlayer(cpbiPlayer.SoldierName, "[BF4DB] VPN-KICK - "  + reason  + " - "  + (string) cpbiPlayer.Ip , ea_guid, true);
 				}
-
+				
                 // verify we got a success message
                 if (!(response.StartsWith("success")))
                 {
