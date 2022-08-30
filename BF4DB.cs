@@ -93,6 +93,7 @@ namespace PRoConEvents
         private Boolean AdKatsIntegration;
         public enum MessageType { Success, Warning, Error, Exception, Normal };
         private string bf4db_currentMap;
+        private string bf4db_currentGameMode = "";
         #endregion
 
         #region Variable setups
@@ -262,7 +263,11 @@ namespace PRoConEvents
 	<p>For any support or bug reports please visit our forums <a href=""http://bf4db.com/forum/thread/bf4db-procon-plugin-support-122"">here</a></p>
 		<h3>Changelog</h3>
 	<blockquote>
-		<h4>2.0.15b (06-JANUARY-2021)</h4>
+        <h4>2.0.15c (30-AUGUST-2022)</h4>
+            - Added improvements from https://github.com/Hedius/BF4DB<br/>
+            - Do not create a report for Railgun on GunMaster.<br/>
+            - Log all events to AdKats.<br/>
+		<h4>2.0.15b (06-JANUARY-2022)</h4>
 		- Unofficial update to kick players under review.<br/>
         - Made with the help of @aleDsz and @Eduardo.<br/>
         <br/>
@@ -538,6 +543,7 @@ namespace PRoConEvents
             if (bf4db_IsValid == true)
             {
                 this.bf4db_currentMap = serverInfo.Map;
+                this.bf4db_currentGameMode = serverInfo.GameMode;
                 ThreadPool.QueueUserWorkItem(new WaitCallback(threadServerUpdate), null);
             }
         }
@@ -782,6 +788,7 @@ namespace PRoConEvents
                 String playerName = computedViolation.Groups[3].Value;
                 String encodedMsg = System.Uri.EscapeDataString(strPunkbusterMessage);
                 violationPlayer(playerName, encodedMsg, bf4db_APIKey);
+                logPlayerInformation(playerName, strPunkbusterMessage);
             }
         }
 
@@ -832,7 +839,7 @@ namespace PRoConEvents
 
             if (speaker != "server" && speaker != "Server" && speaker != "")
             { //String command = Regex.Replace(message, @"[^\w\s]", "");
-                String command = @"[/!@#]" + @bf4db_CheckCommand + @"\s+(.*)";
+                String command = @"[/!@#]" + @bf4db_CheckCommand + @"\s+([^\s]+)";
                 Match cmd = Regex.Match(message, command, RegexOptions.IgnoreCase);
                 if (cmd.Success)
                 {
@@ -1011,6 +1018,9 @@ namespace PRoConEvents
 
         public int violationWeapon(String playername, String weapon, String apiKey)
         {
+            if (!(weapon == "U_Railgun" && this.bf4db_currentGameMode.Contains("GunMaster"))) {
+                reportPlayer(playername, "Suspected forbidden weapon usage: " + weapon  + " (" + this.bf4db_currentMap + "/" +this.bf4db_currentGameMode + ")");
+            }
             try
             {
                 String result = (string)bf4db_API.GetType().GetMethod("violationWeapon").Invoke(bf4db_API, new object[] { (object)playername, (object)weapon, (object)apiKey });
@@ -1282,6 +1292,43 @@ namespace PRoConEvents
                 return null;
             }
         }
-    } // end BF4DB
 
+        public void reportPlayer(String playername, String msg)
+        {
+            if (!this.AdKatsIntegration)
+            {
+                return;
+            }
+
+            var report = new Hashtable
+            {
+                { "caller_identity", "BF4DB" },
+                { "response_requested", false },
+                { "command_type", "player_report" },
+                { "source_name", "BF4DB" },
+                { "target_name", playername },
+                { "record_message", msg }
+            };
+            ExecuteCommand("procon.protected.plugins.call", "AdKats", "IssueCommand", "BF4DB", JSON.JsonEncode(report));
+        }
+
+        public void logPlayerInformation(String playername, String msg)
+        {
+            if (!this.AdKatsIntegration)
+            {
+                return;
+            }
+
+            var report = new Hashtable
+            {
+                { "caller_identity", "BF4DB" },
+                { "response_requested", false },
+                { "command_type", "player_log" },
+                { "source_name", "BF4DB" },
+                { "target_name", playername },
+                { "record_message", msg }
+            };
+            ExecuteCommand("procon.protected.plugins.call", "AdKats", "IssueCommand", "BF4DB", JSON.JsonEncode(report));
+        }
+    } // end BF4DB
 } // end namespace PRoConEvents
