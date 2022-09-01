@@ -456,7 +456,7 @@ namespace PRoConEvents
 
         public override void OnGlobalChat(string speaker, string message)
         {
-            if (bf4db_IsValid == true)
+            if (bf4db_IsValid)
             {
                 checkChat chat = new checkChat();
                 chat.currentSpeaker = speaker;
@@ -472,7 +472,7 @@ namespace PRoConEvents
         public override void OnVersion(string serverType, string version)
         {
             ConsoleWrite("OnVersion" + version + " " + serverType);
-            if (bf4db_IsValid == false)
+            if (!bf4db_IsValid)
             {
                 PluginLogin(version);
             }
@@ -510,7 +510,7 @@ namespace PRoConEvents
 
         public override void OnTeamChat(string speaker, string message, int teamId)
         {
-            if (bf4db_IsValid == true)
+            if (bf4db_IsValid)
             {
                 checkChat chat = new checkChat();
                 chat.currentSpeaker = speaker;
@@ -525,7 +525,7 @@ namespace PRoConEvents
 
         public override void OnSquadChat(string speaker, string message, int teamId, int squadId)
         {
-            if (bf4db_IsValid == true)
+            if (bf4db_IsValid)
             {
                 checkChat chat = new checkChat();
                 chat.currentSpeaker = speaker;
@@ -540,7 +540,7 @@ namespace PRoConEvents
 
         public override void OnServerInfo(CServerInfo serverInfo)
         {
-            if (bf4db_IsValid == true)
+            if (bf4db_IsValid)
             {
                 this.bf4db_currentMap = serverInfo.Map;
                 this.bf4db_currentGameMode = serverInfo.GameMode;
@@ -550,7 +550,7 @@ namespace PRoConEvents
 
         public override void OnServerName(string serverName)
         {
-            if (bf4db_IsValid == true)
+            if (bf4db_IsValid)
             {
                 DebugWrite("Server Name " + serverName, 2);
                 ThreadPool.QueueUserWorkItem(new WaitCallback(threadServerUpdate), null);
@@ -563,7 +563,7 @@ namespace PRoConEvents
 
         public override void OnServerType(String serverType)
         {
-            if (bf4db_IsValid == true)
+            if (bf4db_IsValid)
             {
                 DebugWrite("Server Type " + bf4db_ServerType, 2);
                 ThreadPool.QueueUserWorkItem(new WaitCallback(threadServerUpdate), null);
@@ -576,7 +576,7 @@ namespace PRoConEvents
 
         public override void OnPlayerKilled(Kill k)
         {
-            if (bf4db_IsValid == true)
+            if (bf4db_IsValid)
             {
                 ThreadPool.QueueUserWorkItem(new WaitCallback(threadKill), k);
             }
@@ -687,7 +687,7 @@ namespace PRoConEvents
 
         public override void OnListPlayers(List<CPlayerInfo> players, CPlayerSubset subset)
         {
-            if (bf4db_IsValid == true)
+            if (bf4db_IsValid)
             {
                 if (!lastPlayerCheck())
                 {
@@ -764,7 +764,7 @@ namespace PRoConEvents
 
         public void OnPunkbusterMessage(string strPunkbusterMessage)
         {
-            if (bf4db_IsValid == true)
+            if (bf4db_IsValid)
             {
                 string message = strPunkbusterMessage;
                 ThreadPool.QueueUserWorkItem(new WaitCallback(threadPunkbusterMessage), message);
@@ -794,7 +794,7 @@ namespace PRoConEvents
 
         public void OnPunkbusterPlayerInfo(CPunkbusterInfo cpbiPlayer)
         {
-            if (bf4db_IsValid == true)
+            if (bf4db_IsValid)
             {
                 CPunkbusterInfo player = cpbiPlayer;
                 ThreadPool.QueueUserWorkItem(new WaitCallback(threadPunkbusterPlayerInfo), player);
