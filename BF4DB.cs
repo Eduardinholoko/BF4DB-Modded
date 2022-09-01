@@ -901,7 +901,7 @@ namespace PRoConEvents
             {
                 return;
             }
-			if(guid == "") {
+			if(string.IsNullOrEmpty(guid)) {
 				this.ExecuteCommand("procon.protected.send", "admin.kickPlayer", PlayerName, reason);
 			} else {
 				this.ExecuteCommand("procon.protected.send", "banList.add", "guid", guid, "seconds", "1", reason);
