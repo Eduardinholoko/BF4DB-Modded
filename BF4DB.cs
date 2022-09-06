@@ -458,7 +458,7 @@ namespace PRoConEvents
         {
             if (bf4db_IsValid)
             {
-                checkChat chat = new checkChat();
+                checkChat chat = new();
                 chat.currentSpeaker = speaker;
                 chat.currentMessage = message;
                 ThreadPool.QueueUserWorkItem(new WaitCallback(checkCommand), chat);
@@ -512,7 +512,7 @@ namespace PRoConEvents
         {
             if (bf4db_IsValid)
             {
-                checkChat chat = new checkChat();
+                checkChat chat = new();
                 chat.currentSpeaker = speaker;
                 chat.currentMessage = message;
                 ThreadPool.QueueUserWorkItem(new WaitCallback(checkCommand), chat);
@@ -527,7 +527,7 @@ namespace PRoConEvents
         {
             if (bf4db_IsValid)
             {
-                checkChat chat = new checkChat();
+                checkChat chat = new();
                 chat.currentSpeaker = speaker;
                 chat.currentMessage = message;
                 ThreadPool.QueueUserWorkItem(new WaitCallback(checkCommand), chat);
@@ -891,7 +891,7 @@ namespace PRoConEvents
 
         public void KickPlayer(String PlayerName, String reason, String guid, Boolean sendMessage)
         {
-            kickPlayer kickPlayer = new kickPlayer();
+            kickPlayer kickPlayer = new();
             kickPlayer.PlayerName = PlayerName;
             kickPlayer.bf4db_APIKey = bf4db_APIKey;
             ThreadPool.QueueUserWorkItem(new WaitCallback(kickPlayerReport), kickPlayer);
