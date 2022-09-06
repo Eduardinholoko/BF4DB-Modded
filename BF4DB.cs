@@ -906,7 +906,7 @@ namespace PRoConEvents
 			}
         }
 
-        public Hashtable verifyKey(String apiKey, string serverVersion)
+        public Hashtable? verifyKey(String apiKey, string serverVersion)
         {
             try
             {
@@ -945,7 +945,7 @@ namespace PRoConEvents
             }
         }
 
-        public Hashtable updateServer(String apiKey)
+        public Hashtable? updateServer(String apiKey)
         {
             try
             {
@@ -1250,7 +1250,7 @@ namespace PRoConEvents
             }
         }
 
-        public Hashtable updatePB(CPunkbusterInfo cpbiPlayer, String apiKey)
+        public Hashtable? updatePB(CPunkbusterInfo cpbiPlayer, String apiKey)
         {
             try
             {
