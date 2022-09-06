@@ -844,7 +844,7 @@ namespace PRoConEvents
                     DebugWrite(speaker + ": " + message, 1);
                     int found = 0;
                     String name = cmd.Groups[1].Value;
-                    String target = null;
+                    String? target = null;
                     DebugWrite("checking for name" + name, 1);
                     foreach (String player in bf4db_AllPlayers)
                     {
