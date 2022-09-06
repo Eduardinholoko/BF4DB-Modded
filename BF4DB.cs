@@ -608,9 +608,7 @@ namespace PRoConEvents
                 string[] dragonsTeeth = { "XP3_MarketPl", "XP3_Prpganda", "XP3_UrbanGdn", "XP3_WtrFront" };
                 string[] finalStand = { "XP4_Arctic", "XP4_SubBase", "XP4_Titan", "XP4_WlkrFtry" };
                 string[] suspectWeapons = {
-					"U_Medkit",
 					"U_Ammobag",
-					"U_PortableMedicpack",
 					"Weapons/Gadgets/SOFLAM/SOFLAM_PDA",
 					"Gameplay/Gadgets/SOFLAM/SOFLAM_Projectile",
 					"U_UGS",
