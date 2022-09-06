@@ -456,9 +456,9 @@ namespace PRoConEvents
 
         public override void OnGlobalChat(string speaker, string message)
         {
-            if (bf4db_IsValid)
+            if (bf4db_IsValid == true)
             {
-                checkChat chat = new();
+                checkChat chat = new checkChat();
                 chat.currentSpeaker = speaker;
                 chat.currentMessage = message;
                 ThreadPool.QueueUserWorkItem(new WaitCallback(checkCommand), chat);
@@ -472,7 +472,7 @@ namespace PRoConEvents
         public override void OnVersion(string serverType, string version)
         {
             ConsoleWrite("OnVersion" + version + " " + serverType);
-            if (!bf4db_IsValid)
+            if (bf4db_IsValid == false)
             {
                 PluginLogin(version);
             }
@@ -510,9 +510,9 @@ namespace PRoConEvents
 
         public override void OnTeamChat(string speaker, string message, int teamId)
         {
-            if (bf4db_IsValid)
+            if (bf4db_IsValid == true)
             {
-                checkChat chat = new();
+                checkChat chat = new checkChat();
                 chat.currentSpeaker = speaker;
                 chat.currentMessage = message;
                 ThreadPool.QueueUserWorkItem(new WaitCallback(checkCommand), chat);
@@ -525,9 +525,9 @@ namespace PRoConEvents
 
         public override void OnSquadChat(string speaker, string message, int teamId, int squadId)
         {
-            if (bf4db_IsValid)
+            if (bf4db_IsValid == true)
             {
-                checkChat chat = new();
+                checkChat chat = new checkChat();
                 chat.currentSpeaker = speaker;
                 chat.currentMessage = message;
                 ThreadPool.QueueUserWorkItem(new WaitCallback(checkCommand), chat);
@@ -540,7 +540,7 @@ namespace PRoConEvents
 
         public override void OnServerInfo(CServerInfo serverInfo)
         {
-            if (bf4db_IsValid)
+            if (bf4db_IsValid == true)
             {
                 this.bf4db_currentMap = serverInfo.Map;
                 this.bf4db_currentGameMode = serverInfo.GameMode;
@@ -550,7 +550,7 @@ namespace PRoConEvents
 
         public override void OnServerName(string serverName)
         {
-            if (bf4db_IsValid)
+            if (bf4db_IsValid == true)
             {
                 DebugWrite("Server Name " + serverName, 2);
                 ThreadPool.QueueUserWorkItem(new WaitCallback(threadServerUpdate), null);
@@ -563,7 +563,7 @@ namespace PRoConEvents
 
         public override void OnServerType(String serverType)
         {
-            if (bf4db_IsValid)
+            if (bf4db_IsValid == true)
             {
                 DebugWrite("Server Type " + bf4db_ServerType, 2);
                 ThreadPool.QueueUserWorkItem(new WaitCallback(threadServerUpdate), null);
@@ -576,7 +576,7 @@ namespace PRoConEvents
 
         public override void OnPlayerKilled(Kill k)
         {
-            if (bf4db_IsValid)
+            if (bf4db_IsValid == true)
             {
                 ThreadPool.QueueUserWorkItem(new WaitCallback(threadKill), k);
             }
@@ -685,7 +685,7 @@ namespace PRoConEvents
 
         public override void OnListPlayers(List<CPlayerInfo> players, CPlayerSubset subset)
         {
-            if (bf4db_IsValid)
+            if (bf4db_IsValid == true)
             {
                 if (!lastPlayerCheck())
                 {
@@ -762,7 +762,7 @@ namespace PRoConEvents
 
         public void OnPunkbusterMessage(string strPunkbusterMessage)
         {
-            if (bf4db_IsValid)
+            if (bf4db_IsValid == true)
             {
                 string message = strPunkbusterMessage;
                 ThreadPool.QueueUserWorkItem(new WaitCallback(threadPunkbusterMessage), message);
@@ -792,7 +792,7 @@ namespace PRoConEvents
 
         public void OnPunkbusterPlayerInfo(CPunkbusterInfo cpbiPlayer)
         {
-            if (bf4db_IsValid)
+            if (bf4db_IsValid == true)
             {
                 CPunkbusterInfo player = cpbiPlayer;
                 ThreadPool.QueueUserWorkItem(new WaitCallback(threadPunkbusterPlayerInfo), player);
@@ -844,7 +844,7 @@ namespace PRoConEvents
                     DebugWrite(speaker + ": " + message, 1);
                     int found = 0;
                     String name = cmd.Groups[1].Value;
-                    String? target = null;
+                    String target = null;
                     DebugWrite("checking for name" + name, 1);
                     foreach (String player in bf4db_AllPlayers)
                     {
@@ -891,7 +891,7 @@ namespace PRoConEvents
 
         public void KickPlayer(String PlayerName, String reason, String guid, Boolean sendMessage)
         {
-            kickPlayer kickPlayer = new();
+            kickPlayer kickPlayer = new kickPlayer();
             kickPlayer.PlayerName = PlayerName;
             kickPlayer.bf4db_APIKey = bf4db_APIKey;
             ThreadPool.QueueUserWorkItem(new WaitCallback(kickPlayerReport), kickPlayer);
@@ -899,14 +899,14 @@ namespace PRoConEvents
             {
                 return;
             }
-			if(string.IsNullOrEmpty(guid)) {
+			if(guid == "") {
 				this.ExecuteCommand("procon.protected.send", "admin.kickPlayer", PlayerName, reason);
 			} else {
 				this.ExecuteCommand("procon.protected.send", "banList.add", "guid", guid, "seconds", "1", reason);
 			}
         }
 
-        public Hashtable? verifyKey(String apiKey, string serverVersion)
+        public Hashtable verifyKey(String apiKey, string serverVersion)
         {
             try
             {
@@ -945,7 +945,7 @@ namespace PRoConEvents
             }
         }
 
-        public Hashtable? updateServer(String apiKey)
+        public Hashtable updateServer(String apiKey)
         {
             try
             {
@@ -1250,7 +1250,7 @@ namespace PRoConEvents
             }
         }
 
-        public Hashtable? updatePB(CPunkbusterInfo cpbiPlayer, String apiKey)
+        public Hashtable updatePB(CPunkbusterInfo cpbiPlayer, String apiKey)
         {
             try
             {
