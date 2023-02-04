@@ -11,7 +11,10 @@
         
         
 <details><summary> Original Changelog </summary>
-<p>
+<p>	
+	2.0.16 (02-FEBRUARY-2023)
+	- Added kick option for glitchers
+	- Added kick option for hacked accounts
 
 	2.0.15 (19-JULY-2020)
 	- Update to kick method.
