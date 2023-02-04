@@ -12,13 +12,13 @@
         
 <details><summary> Original Changelog </summary>
 <p>	
+	
 	2.0.16 (02-FEBRUARY-2023)
 	- Added kick option for glitchers
 	- Added kick option for hacked accounts
 
 	2.0.15 (19-JULY-2020)
 	- Update to kick method.
-	
 	
 	2.0.14 (13-JUNE-2020)
 	- Added VPN checking, credits to Russao.
